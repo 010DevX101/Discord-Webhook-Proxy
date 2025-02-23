@@ -1,14 +1,19 @@
+import dotenv from "dotenv";
+dotenv.config();
 import express, { json } from "express";
 const app = express();
-const PORT = 3000;
 
+// Constants
+const PORT = 3000;
 const SERVER_ERROR = 500;
 const NO_CONTENT = 204;
+const ALLOWED_WEBHOOKS = process.env.ALLOWED_WEBHOOKS.split(",");
 
 app.use(json());
 app.post("/api/webhooks/:id/:token", async (req, res) => {
   const { id, token } = req.params;
   const webhook = `https://discord.com/api/webhooks/${id}/${token}`;
+  if (!ALLOWED_WEBHOOKS.includes(webhook)) return res.status(401).send({"data": "Unauthorized webhook."});
   try {
     const response = await fetch(webhook, {
       method: "POST",
