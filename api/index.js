@@ -20,12 +20,11 @@ app.post("/api/webhooks/:id/:token", async (req, res) => {
       body: JSON.stringify(req.body),
       headers: {"Content-Type": "application/json"}
     });
-    if (response.status !== NO_CONTENT) {
-      return res.status(response.status).send({"data": response.statusText});
-    }
+    if (response.status !== NO_CONTENT) return res.status(response.status).send({"data": response.statusText});
     return res.sendStatus(NO_CONTENT);
   } catch (error) {
-    return res.status(SERVER_ERROR).send({"data": error.message})
+    return res.status(SERVER_ERROR).send({"data": error.message});
   }
 });
-app.listen(PORT, () => console.log(`Server initialized on port ${PORT}`));
+
+export default app;
