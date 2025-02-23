@@ -7,7 +7,7 @@ const app = express();
 const PORT = 3000;
 const SERVER_ERROR = 500;
 const NO_CONTENT = 204;
-const ALLOWED_WEBHOOKS = process.env.ALLOWED_WEBHOOKS.split(",");
+const ALLOWED_WEBHOOKS = process.env.ALLOWED_WEBHOOKS.split(",").map((webhook) => webhook.trim());
 
 app.use(json());
 app.post("/api/webhooks/:id/:token", async (req, res) => {
